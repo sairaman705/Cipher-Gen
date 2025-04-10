@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import randomSentence from "random-sentence";
+import CryptoJS from "crypto-js";
 import "./Section1.css";
-
 
 const PasswordGenerator = () => {
   const [password, setPassword] = useState("");
@@ -21,13 +21,28 @@ const PasswordGenerator = () => {
   const [sentenceLength, setSentenceLength] = useState(4);
   const [capitalizeFirstLetter, setCapitalizeFirstLetter] = useState(false);
 
+  // encryption decryption states :-
+  const [inputText, setInputText] = useState("");
+  const [keyValue, setKeyValue] = useState("");
+  const [encFileName, setencFileName] = useState("");
+  const [decFileName, setdecFileName] = useState("");
+  const [decryptedPassword, setDecryptedPassword] = useState("");
+
   // Function to generate a random memorable sentence
   const generateSentence = () => {
     let newSentence = randomSentence({ words: sentenceLength });
+
+    // Convert to array of words, remove punctuation, and join with "-"
+    let formattedSentence = newSentence
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "") // remove punctuation
+      .trim()
+      .split(/\s+/)
+      .join("-");
+
     if (capitalizeFirstLetter) {
       newSentence = newSentence.charAt(0).toUpperCase() + newSentence.slice(1);
     }
-    setSentence(newSentence);
+    setSentence(formattedSentence);
   };
 
   // Function to handle range change
@@ -38,6 +53,10 @@ const PasswordGenerator = () => {
 
   // Function to copy the sentence to clipboard
   const copySentence = () => {
+    if (!sentence || sentence === "Click Refresh to Generate") {
+      alert("No sentence to copy!");
+      return;
+    }
     navigator.clipboard.writeText(sentence);
     alert("Sentence copied to clipboard!");
   };
@@ -92,6 +111,90 @@ const PasswordGenerator = () => {
   };
 
   const sliderRef = useRef(null);
+
+  // generate key and save
+  const generateKey = () => {
+    const key = CryptoJS.lib.WordArray.random(16).toString(); // 128-bit key
+    const blob = new Blob([key], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "your_key.key";
+    link.click();
+  };
+
+  // load key
+  const loadKey = (event) => {
+    const file = event.target.files[0];
+    if (file && file.name.endsWith(".key")) {
+      const reader = new FileReader();
+      reader.onload = (e) => setKeyValue(e.target.result.trim());
+      reader.readAsText(file);
+    } else {
+      alert("Please select a valid .key file");
+    }
+  };
+
+  // encrypt and save password
+  const encryptAndSave = () => {
+    if (!keyValue) return alert("Please load a key first.");
+    const encrypted = CryptoJS.AES.encrypt(inputText, keyValue).toString();
+    const blob = new Blob([encrypted], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = encFileName || "encrypted.txt";
+    link.click();
+  };
+
+  // decrypt password
+
+  const decryptFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !keyValue) {
+      alert("Encrypted file or key is missing");
+      return;
+    }
+  
+    const reader = new FileReader();
+  
+    reader.onload = (event) => {
+      try {
+        const encryptedData = event.target.result;
+        const bytes = CryptoJS.AES.decrypt(encryptedData, keyValue);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+  
+        if (!decrypted) {
+          alert("Decryption failed. Wrong key?");
+        } else {
+          setDecryptedPassword(decrypted); // ✅ This updates the UI
+        }
+      } catch (error) {
+        alert("Error while decrypting: " + error.message);
+      }
+    };
+  
+    reader.readAsText(file);
+  };
+
+// const decryptPassword = () => {
+//   try {
+//     if (!encryptAndSave || !secretKey) {
+//       alert("Encrypted password or secret key is missing.");
+//       return;
+//     }
+
+//     const bytes = CryptoJS.AES.decrypt(encryptAndSave, secretKey);
+//     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+//     if (!decrypted) {
+//       alert("Decryption failed. Possible reasons: wrong key or corrupted data.");
+//     } else {
+//       setDecryptedPassword(decrypted);
+//     }
+//   } catch (error) {
+//     alert("Decryption error: " + error.message);
+//   }
+// };
+  
 
   useEffect(() => {
     const updateSlider = () => {
@@ -151,6 +254,13 @@ const PasswordGenerator = () => {
             >
               <i className="bx bx-bulb"></i> Memorable
             </button>
+            <button
+              className={`tab ${activeTab === "cryptify" ? "active" : ""}`}
+              onClick={() => setActiveTab("cryptify")}
+            >
+              <i class="bx bx-hide"></i> Cryptify
+            </button>
+
             <div ref={sliderRef} className="tab-slider"></div>
           </div>
 
@@ -242,10 +352,67 @@ const PasswordGenerator = () => {
                 className="generated-input"
                 value={sentence}
               />
- 
+
               <div className="memorable-btns">
-                <button className="cpy-btn" onClick={copySentence}>Copy Sentence</button>
-                <button className="rf-btn" onClick={generateSentence}>Refresh Sentence</button>
+                <button
+                  className="cpy-btn"
+                  onClick={copySentence}
+                  disabled={
+                    !sentence || sentence === "Click Refresh to Generate"
+                  }
+                >
+                  Copy Sentence
+                </button>
+                <button className="rf-btn" onClick={generateSentence}>
+                  Refresh Sentence
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "cryptify" && (
+            <div className="encrypt-decrypt-tab">
+              <div>
+                <input
+                  className="crypto-input-box"
+                  type="text"
+                  placeholder="Paste Your Password"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                />
+              </div>
+              <div className="gen-load-key">
+                <div className="generate-key">
+                  <input
+                    className=""
+                    type="text"
+                    placeholder="Filename.key"
+                    onChange={(e) => setencFileName(e.target.value)}
+                  />
+                </div>
+                <div className="gen-load-key-btn">
+                  <button onClick={generateKey}>Generate Key</button>
+                  <input type="file" accept=".key" onChange={loadKey} />
+                </div>
+              </div>
+              <div className="enc-pwd">
+                <input
+                  type="text"
+                  placeholder="Encrypted filename.txt"
+                  onChange={(e) => setencFileName(e.target.value)}
+                />
+                <button onClick={encryptAndSave}>Encrypt</button>
+              </div>
+              <div className="dec-pwd">
+                <input type="file" accept=".txt" onChange={decryptFile} />
+                
+                <input
+                  className="dec-txt"
+                  type="text"
+                  value={decryptedPassword}
+                  onChange={(e) => setdecFileName(e.target.value)}
+                  placeholder="Decrypted Password"
+                />
               </div>
             </div>
           )}
