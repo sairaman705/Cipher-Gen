@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import randomSentence from "random-sentence";
+import {generateCustomSentence} from "./Utils/customSentenceGenerator";
+import { toast } from "react-toastify";
 import CryptoJS from "crypto-js";
 import "./Section1.css";
 
@@ -16,7 +17,6 @@ const PasswordGenerator = () => {
     excludeDuplicate: false,
   });
 
-  // memorable - password states:-
   const [sentence, setSentence] = useState("Click Refresh to Generate");
   const [sentenceLength, setSentenceLength] = useState(4);
   const [capitalizeFirstLetter, setCapitalizeFirstLetter] = useState(false);
@@ -30,7 +30,7 @@ const PasswordGenerator = () => {
 
   // Function to generate a random memorable sentence
   const generateSentence = () => {
-    let newSentence = randomSentence({ words: sentenceLength });
+    let newSentence = generateCustomSentence(sentenceLength);
 
     // Convert to array of words, remove punctuation, and join with "-"
     let formattedSentence = newSentence
@@ -39,9 +39,11 @@ const PasswordGenerator = () => {
       .split(/\s+/)
       .join("-");
 
-    if (capitalizeFirstLetter) {
-      newSentence = newSentence.charAt(0).toUpperCase() + newSentence.slice(1);
-    }
+      if (capitalizeFirstLetter) {
+        formattedSentence =
+          formattedSentence.charAt(0).toUpperCase() + formattedSentence.slice(1);
+      }
+
     setSentence(formattedSentence);
   };
 
@@ -54,11 +56,29 @@ const PasswordGenerator = () => {
   // Function to copy the sentence to clipboard
   const copySentence = () => {
     if (!sentence || sentence === "Click Refresh to Generate") {
-      alert("No sentence to copy!");
+      toast.error("Nothing To Copy", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       return;
     }
     navigator.clipboard.writeText(sentence);
-    alert("Sentence copied to clipboard!");
+    toast.success("Password copied to clipboard!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const generatePassword = () => {
@@ -101,12 +121,21 @@ const PasswordGenerator = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(password);
-    alert("Password copied to clipboard!");
+    toast.success("Password copied to clipboard!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const getStrengthColor = () => {
-    if (length <= 10) return "red";
-    if (length <= 20) return "yellow";
+    if (length <= 10) return "red"; 
+    if (length < 16) return "yellow";
     return "green";
   };
 
@@ -118,7 +147,14 @@ const PasswordGenerator = () => {
     const blob = new Blob([key], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "your_key.key";
+    link.href = URL.createObjectURL(blob);
+
+    // Ensure filename ends with `.key`
+    const fileName = encFileName.trim().endsWith(".key")
+      ? encFileName.trim()
+      : `${encFileName.trim()}.key`;
+
+    link.download = fileName;
     link.click();
   };
 
@@ -136,6 +172,12 @@ const PasswordGenerator = () => {
 
   // encrypt and save password
   const encryptAndSave = () => {
+
+    if (!keyValue) {
+      toast.error("Please load a key first.", { position: "top-right", theme: "colored" });
+      return;
+    }
+
     if (!keyValue) return alert("Please load a key first.");
     const encrypted = CryptoJS.AES.encrypt(inputText, keyValue).toString();
     const blob = new Blob([encrypted], { type: "text/plain" });
@@ -143,6 +185,14 @@ const PasswordGenerator = () => {
     link.href = URL.createObjectURL(blob);
     link.download = encFileName || "encrypted.txt";
     link.click();
+
+    toast.success("Password encrypted and saved successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "light",
+    });
+
+
   };
 
   // decrypt password
@@ -150,7 +200,7 @@ const PasswordGenerator = () => {
   const decryptFile = async (e) => {
     const file = e.target.files[0];
     if (!file || !keyValue) {
-      alert("Encrypted file or key is missing");
+      toast.error("Encrypted file or key is missing", { position: "top-right", theme: "colored" });
       return;
     }
   
@@ -163,12 +213,23 @@ const PasswordGenerator = () => {
         const decrypted = bytes.toString(CryptoJS.enc.Utf8);
   
         if (!decrypted) {
-          alert("Decryption failed. Wrong key?");
+          toast.error("Decryption failed. Wrong key?", {
+            position: "top-right",
+            theme: "colored",
+          });
         } else {
-          setDecryptedPassword(decrypted); // ✅ This updates the UI
+          setDecryptedPassword(decrypted);
+          toast.success("Password decrypted successfully!", {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "light",
+          });
         }
       } catch (error) {
-        alert("Error while decrypting: " + error.message);
+        toast.error("Error while decrypting: " + error.message, {
+          position: "top-right",
+          theme: "colored",
+        });
       }
     };
   
@@ -236,7 +297,7 @@ const PasswordGenerator = () => {
             Encrypt. Decrypt. Secure. Generate your ultimate password now!
           </h1>
           <p>
-            creaft strong password to guard <br />
+            create strong password to guard <br />
             your digital world.
           </p>
         </div>
@@ -387,12 +448,16 @@ const PasswordGenerator = () => {
                     className=""
                     type="text"
                     placeholder="Filename.key"
+                    value={encFileName}
                     onChange={(e) => setencFileName(e.target.value)}
                   />
                 </div>
                 <div className="gen-load-key-btn">
                   <button onClick={generateKey}>Generate Key</button>
-                  <input type="file" accept=".key" onChange={loadKey} />
+                  <div className="load-file">
+                    <p>Load Key</p>
+                    <input className="load-inpt" type="file" accept=".key" onChange={loadKey} />
+                  </div>
                 </div>
               </div>
               <div className="enc-pwd">
@@ -401,11 +466,14 @@ const PasswordGenerator = () => {
                   placeholder="Encrypted filename.txt"
                   onChange={(e) => setencFileName(e.target.value)}
                 />
-                <button onClick={encryptAndSave}>Encrypt</button>
+                <button className="enc-btn" onClick={encryptAndSave}>Encrypt</button>
+              </div>
+
+              <div className="dec-file">
+                <p>Select File For Decrypt</p>
+                <input className="dec-inpt" type="file" accept=".txt" onChange={decryptFile} />
               </div>
               <div className="dec-pwd">
-                <input type="file" accept=".txt" onChange={decryptFile} />
-                
                 <input
                   className="dec-txt"
                   type="text"

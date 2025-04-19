@@ -279,13 +279,23 @@ label {
   width: 100%;
 }
 
+.enc-pwd{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .enc-pwd input[type="text"] {
-  flex: 1;
+  width: 96.5%;
   padding: 8px 10px;
   font-size: 14px;
   border: 1px solid #aaa;
   border-radius: 5px;
   outline: none;
+}
+
+.enc-pwd .enc-btn{
+  width: 100%;
 }
 
 .gen-load-key input[type="file"],
@@ -328,11 +338,41 @@ label {
 }
 
 .gen-load-key-btn{
+  width: 100%;
   display: flex;
   justify-content: space-between;
   text-align: center;
   align-items: center;
-  gap: 5rem;
+}
+
+.load-file{
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 10px;
+  text-align: center;
+  gap: 10px;
+}
+
+.load-file p{
+  color: rgb(120, 120, 120);
+}
+
+/* .load-inpt{
+  background-color: rgb(247, 246, 248);
+} */
+
+.dec-file{
+  background-color: rgb(202, 202, 202);
+  align-items: center;
+  text-align: center;
+  padding: 5px 10px;
+  width: auto;
+}
+
+.dec-inpt{
+  background-color: rgb(247, 246, 248); 
+  width: 100%;
+  padding: 10px 10px;
 }
 
 .dec-txt{
@@ -341,4 +381,6 @@ label {
   border: 1px solid #aaa;
   border-radius: 5px;
   outline: none;
+  width: 100%;
 }
+
