@@ -235,26 +235,6 @@ const PasswordGenerator = () => {
   
     reader.readAsText(file);
   };
-
-// const decryptPassword = () => {
-//   try {
-//     if (!encryptAndSave || !secretKey) {
-//       alert("Encrypted password or secret key is missing.");
-//       return;
-//     }
-
-//     const bytes = CryptoJS.AES.decrypt(encryptAndSave, secretKey);
-//     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-
-//     if (!decrypted) {
-//       alert("Decryption failed. Possible reasons: wrong key or corrupted data.");
-//     } else {
-//       setDecryptedPassword(decrypted);
-//     }
-//   } catch (error) {
-//     alert("Decryption error: " + error.message);
-//   }
-// };
   
 
   useEffect(() => {
@@ -448,7 +428,7 @@ const PasswordGenerator = () => {
                     className=""
                     type="text"
                     placeholder="Filename.key"
-                    value={encFileName}
+                    
                     onChange={(e) => setencFileName(e.target.value)}
                   />
                 </div>

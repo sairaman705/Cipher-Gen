@@ -1,7 +1,7 @@
 .main-container{
   display: flex;
   justify-content: space-between;
-  padding: 30px 90px;
+  padding: 60px 120px;
 }
 
 .main-content{
@@ -27,6 +27,7 @@
   height: 530px;
   text-align: center;
   flex-shrink: 0;
+  border-radius: 15px;
 }
 
 .tabs {
