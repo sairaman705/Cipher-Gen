@@ -1,0 +1,39 @@
+.binary-section {
+  overflow: hidden;
+  background: url("../Images/cipherBinary.png");
+  padding: 100px;
+  align-items: center;
+}
+
+.overlay-content{
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.content-box{
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 50px 30px;
+  border-radius: 28px;
+}
+
+.content-box h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.content-box p {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 426px){
+  .binary-section{
+    padding: 15px;
+  }
+}

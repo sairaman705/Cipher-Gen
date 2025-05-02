@@ -277,8 +277,8 @@ const PasswordGenerator = () => {
             Encrypt. Decrypt. Secure. Generate your ultimate password now!
           </h1>
           <p>
-            create strong password to guard <br />
-            your digital world.
+            "create strong password to guard <br />
+            your digital world."
           </p>
         </div>
         <div className="generator-container">

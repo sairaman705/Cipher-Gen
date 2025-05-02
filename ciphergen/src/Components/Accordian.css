@@ -1,0 +1,130 @@
+#section-3 {
+  background-color: rgb(85, 85, 85);
+}
+
+.faq-wrapper {
+  color: #fff;
+  padding: 4rem 2rem;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+}
+
+/* Title */
+.faq-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-left: 120px;
+  margin-bottom: 3rem;
+}
+
+/* Grid layout */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* FAQ item box */
+.faq-item {
+  background-color: transparent;
+  padding: 0 1rem;
+}
+
+/* Text box inside each item */
+.accordion-item {
+  background-color: transparent;
+}
+
+.accordion-question {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-answer {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Align left */
+.faq-item.left {
+  justify-self: start;
+  text-align: left;
+}
+
+/* Align right */
+.faq-item.right {
+  justify-self: end;
+  text-align: left;
+}
+
+.accordion-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.4rem;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.accordion-symbol {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  user-select: none;
+}
+
+.accordion-answer {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #ddd;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  padding: 0 0;
+}
+
+/* When open */
+.accordion-answer.open {
+  max-height: 500px; /* Enough to show full text */
+  padding: 0.5rem 0;
+}
+
+/* curly images */
+.faq-wrapper .curly-left,
+.faq-wrapper .curly-right{
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.curly-left{
+  left: 0;
+}
+
+.curly-right{
+  right: 0;
+  transform: scaleX(-1);
+}
+
+@media (max-width: 426px){
+  .faq-title{
+    font-size: 1.1rem;
+    margin-left: 0;
+  }
+
+  .faq-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .accordion-question{
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}

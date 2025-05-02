@@ -1,0 +1,19 @@
+.footer{
+    background-color: #000;
+    padding: 60px 0 80px 170px;
+    color: #fff;
+    position: relative;
+}
+
+.term-support{
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    font-size: 0.7rem;
+}
+
+@media(max-width: 426px){
+    .footer{
+        padding: 60px 0 80px 10px;
+    }
+}

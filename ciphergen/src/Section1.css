@@ -2,10 +2,7 @@
   display: flex;
   justify-content: space-between;
   padding: 60px 120px;
-}
-
-.main-content{
-  /* background-color: burlywood; */
+  background-color: rgb(14, 14, 14);
 }
 
 .main-content h1{
@@ -13,6 +10,7 @@
   font-size: 3rem;
   font-weight: 600;
   line-height: 65px;
+  overflow-y: hidden;
 }
 
 .main-content p{
@@ -28,6 +26,7 @@
   text-align: center;
   flex-shrink: 0;
   border-radius: 15px;
+  overflow-y: hidden;
 }
 
 .tabs {
@@ -50,6 +49,7 @@
   justify-content: center;
   position: relative;
   z-index: 1;
+  overflow-y: hidden;
 }
 
 .tab.active {
@@ -70,12 +70,6 @@
   border-radius: 5px;
   transition: transform 0.3s ease;
   z-index: 0;
-}
-
-.password-generator {
-  width: 50%;
-  flex-shrink: 0;
-  padding: 20px;
 }
 
 .password-generator {
@@ -127,6 +121,7 @@
 
 .pass-settings {
   text-align: left;
+  width: 380px;
 }
 
 .pass-settings label {
@@ -156,7 +151,7 @@
   padding: 10px;
   margin-top: 10px;
   border: none;
-  background: blue;
+  background: rgb(9, 9, 9);
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -164,7 +159,7 @@
 }
 
 .generate-btn:hover {
-  background: darkblue;
+  background: rgb(0, 0, 0);
 }
 
 /* memorable */
@@ -199,6 +194,7 @@
   width: 80%;
   height: 5px;
   margin-top: 8px;
+  overflow-y: hidden;
 }
 
 .range-character span{
@@ -385,3 +381,70 @@ label {
   width: 100%;
 }
 
+
+
+/* media query */
+@media (max-width: 426px){
+  .main-container{
+    flex-direction: column;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding: 0 0 0 10px;
+    
+  }
+
+  .main-content h1{
+    font-size: 2.2rem;
+    font-weight: 600;
+    line-height: 37px;
+    margin-right: 50px;
+    margin-bottom: 10px;
+  }
+
+  .main-content p{
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .generator-container{
+    width: 400px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    overflow-y: hidden;
+  }
+
+  .password-generator{
+    padding: 0;
+  }
+
+  .password-generator .input-box{
+    width: 360px;
+  }
+
+  .pass-indicator, .pass-length{
+    width: 380px;
+  }
+
+  .generate-btn{
+    width: 380px;
+    margin-right: 150px;
+  }
+
+  .range-character input[type="range"]{
+    width: 60%;
+  }
+
+  .range-character span{
+    font-size: 18px;
+  }
+
+  .gen-load-key button{
+    width: 200px;
+  }
+
+  .gen-load-key input[type="file"]{
+    margin-top: 12px;
+    margin-left: 16px;
+  }
+}
