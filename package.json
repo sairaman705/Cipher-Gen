@@ -1,9 +1,6 @@
-{
+ {
   "dependencies": {
     "react-router-dom": "^7.3.0",
     "styled-components": "^6.1.15"
-  },
-  "devDependencies": {
-    "gh-pages": "^6.3.0"
   }
 }
