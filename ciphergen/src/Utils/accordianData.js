@@ -1,23 +1,23 @@
 const accordianData = [
     {
         id: 1,
-        question: "What is easiest way to create strong password ?",
-        answer: "You can quickly create strong passwords using 1Password's strong password generator. Alternatively, you can use the password generator built into 1Password. Both methods will produce strong, unique passwords that you can use to protect any online account."
+        question: "What is CipherGen, and how does it work?",
+        answer: "CipherGen is a secure password generator that helps you create strong, random, and unique passwords. It uses a mix of uppercase and lowercase letters, numbers, and special characters. Just enter your desired length, and CipherGen does the rest!"
     },
     {
         id: 2,
-        question: "What is personal password manager ?",
-        answer: "A personal password manager is the best way to create, save, and autofill strong passwords outside of work. 1Password's built-in password generator will offer strong and unique credentials whenever you create or update an online account. It will then offer to autofill those credentials the next time you visit the website in vour browser or open the associated app."
+        question: "How do I know my passwords are secure?",
+        answer: "CipherGen generates passwords with high complexity and length, making them much harder to crack. Our tool ensures passwords are completely random, free from patterns, and unique for each account, significantly reducing the risk of breaches."
     },
     {
         id: 3,
-        question: "What is an enterprice password manager ?",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+        question: "Is it safe to use CipherGen for generating my passwords?",
+        answer: "Absolutely! CipherGen prioritizes your privacy and security. We don’t store any of the passwords generated or share your data. Once you generate a password, it’s yours to use and store securely."
     },
     {
         id: 4,
-        question: "What is best password manager ?",
-        answer: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters."
+        question: "How does CipherGen encrypt and decrypt passwords?",
+        answer: "CipherGen uses symmetric encryption, where the same key is used for both encrypting and decrypting passwords. This ensures that your sensitive information is securely stored and only accessible by you with the correct key."
     },
 ]
 

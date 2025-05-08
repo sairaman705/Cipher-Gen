@@ -1,5 +1,6 @@
 {
   "name": "ciphergen",
+  "homepage": "https://sairaman705.github.io/Cipher-Gen/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "crypto-js": "^4.2.0",

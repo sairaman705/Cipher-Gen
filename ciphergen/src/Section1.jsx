@@ -277,7 +277,7 @@ const PasswordGenerator = () => {
             Encrypt. Decrypt. Secure. Generate your ultimate password now!
           </h1>
           <p>
-            "create strong password to guard <br />
+            "Create strong password to guard <br />
             your digital world."
           </p>
         </div>
@@ -299,7 +299,7 @@ const PasswordGenerator = () => {
               className={`tab ${activeTab === "cryptify" ? "active" : ""}`}
               onClick={() => setActiveTab("cryptify")}
             >
-              <i class="bx bx-hide"></i> Cryptify
+              <i class="bx bx-hide"></i> Cryptofy
             </button>
 
             <div ref={sliderRef} className="tab-slider"></div>
